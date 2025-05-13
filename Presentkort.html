@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentkort - Yogayama</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@700;900&display=swap');
+
+        :root {
+            --background-color: #f0f0f0; /* Ljusgrå bakgrund för kontrast */
+            --card-background: #ffffff;
+            --text-color: #000000;
+            --border-color: #000000;
+            --accent-color: #FFD700; /* En stark accentfärg, kan tas bort för renare brutalism */
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-color);
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .gift-card-container {
+            width: 100%;
+            max-width: 450px; /* Begränsa bredden för kortliknande känsla */
+        }
+
+        .gift-card {
+            background-color: var(--card-background);
+            border: 3px solid var(--border-color);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 8px 8px 0px var(--border-color); /* Typisk neobrutalistisk skugga */
+            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+        }
+
+        .gift-card:hover {
+            /* Subtil interaktion vid hover */
+            /* transform: translate(-2px, -2px); */
+            /* box-shadow: 10px 10px 0px var(--border-color); */
+        }
+
+        .header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.8rem;
+            margin: 0 0 10px 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brand {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .service-details h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.8rem;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+
+        .service-details p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .recipient-info {
+            margin: 20px 0;
+            font-size: 0.9rem;
+            text-align: left;
+            border-top: 2px dashed var(--border-color);
+            border-bottom: 2px dashed var(--border-color);
+            padding: 15px 0;
+        }
+
+        .recipient-info p {
+            margin: 8px 0;
+        }
+
+        .recipient-info span {
+            font-weight: 700;
+        }
+
+        .interactive-section {
+            margin-top: 30px;
+        }
+
+        .reveal-button {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 12px 25px;
+            background-color: var(--text-color);
+            color: var(--card-background);
+            border: 2px solid var(--text-color);
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .reveal-button:hover {
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+
+        .hidden-details {
+            display: none; /* Dold från början */
+            margin-top: 25px;
+            padding: 20px;
+            border: 2px dashed var(--border-color);
+            background-color: #f9f9f9; /* Lätt avvikande bakgrund för det avslöjade */
+        }
+
+        .hidden-details p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .validity {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+        }
+        .footer a {
+            color: var(--text-color);
+            text-decoration: underline;
+        }
+
+        /* Stilar för när detaljer är avslöjade */
+        .details-revealed .reveal-button {
+            /* Optional: ändra knappens utseende när detaljer visas */
+            /* background-color: var(--accent-color); */
+            /* color: var(--text-color); */
+            /* border-color: var(--text-color); */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gift-card-container">
+        <div class="gift-card" id="giftCard">
+            <div class="header">
+                <h1>Presentkort</h1>
+            </div>
+
+            <div class="brand">
+                Yogayama
+            </div>
+
+            <div class="service-details">
+                <h2>Ansiktsbehandling Lyx</h2>
+                <p>110 minuters ren njutning och vitalisering för din hud.</p>
+            </div>
+
+            <div class="recipient-info">
+                <p>Till: <span id="recipientName">Jorpan</span></p>
+                <p>Från: <span id="senderName">Joko</span></p>
+            </div>
+
+            <div class="interactive-section">
+                <button class="reveal-button" id="revealBtn">Visa Detaljer / Aktivera</button>
+                <div class="hidden-details" id="hiddenDetails">
+                    <p><strong>Unik Kod:</strong> <span id="uniqueCode">Joko-Bert-Jönsson</span></p>
+                    <p><strong>Bokning:</strong> Vänligen kontakta Joko-jama för att boka din tid och uppge koden.</p>
+                    <p>Detta presentkort är en personlig värdehandling.</p>
+                </div>
+            </div>
+
+            <div class="validity">
+                <p>Giltigt till: <span id="validityDate">[Datum 12 månader framåt]</span></p>
+            </div>
+
+            <div class="footer">
+                <p>Yogayama | Jungfrugatan 8, Stockholm | <a href="https://www.yogayama.se" target="_blank">www.yogayama.se</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const revealBtn = document.getElementById('revealBtn');
+        const hiddenDetails = document.getElementById('hiddenDetails');
+        const giftCard = document.getElementById('giftCard');
+        const uniqueCodeEl = document.getElementById('uniqueCode');
+        const validityDateEl = document.getElementById('validityDate');
+
+        // Funktion för att generera en enkel "unik" kod (exempel)
+        function generateUniqueCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                if (i < 3) code += '-';
+            }
+            return code;
+        }
+
+        // Sätt giltighetsdatum (12 månader från idag)
+        function setValidityDate() {
+            const today = new Date();
+            const futureDate = new Date(today.setMonth(today.getMonth() + 12));
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            validityDateEl.textContent = futureDate.toLocaleDateString('sv-SE', options);
+        }
+
+        // Event listener för knappen
+        let detailsVisible = false;
+        revealBtn.addEventListener('click', () => {
+            if (!detailsVisible) {
+                hiddenDetails.style.display = 'block';
+                giftCard.classList.add('details-revealed');
+                revealBtn.textContent = 'Detaljer Visade';
+                // revealBtn.disabled = true; // Valfritt: inaktivera knappen efter klick
+
+                // Generera och visa unik kod först när man klickar (simulerar "aktivering")
+                uniqueCodeEl.textContent = generateUniqueCode();
+                detailsVisible = true;
+            }
+            // För att göra det till en toggle, lägg till en else-del här:
+            // else {
+            //     hiddenDetails.style.display = 'none';
+            //     giftCard.classList.remove('details-revealed');
+            //     revealBtn.textContent = 'Visa Detaljer / Aktivera';
+            //     detailsVisible = false;
+            // }
+        });
+
+        // Sätt initiala värden
+        setValidityDate();
+
+        // Exempel på hur du kan fylla i namn dynamiskt om du vill
+        // (kan tas bort om du fyller i dem direkt i HTML)
+        // document.getElementById('recipientName').textContent = "Anna Andersson";
+        // document.getElementById('senderName').textContent = "Erik Svensson";
+    </script>
+
+</body>
+</html>
